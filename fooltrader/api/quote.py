@@ -290,7 +290,7 @@ def get_kdata(security_item, the_date=None, start_date=None, end_date=None, fuqu
             if start_date and end_date:
                 df = df.loc[start_date:end_date]
 
-        #
+        # 复权处理
         if source == '163' and security_item['type'] == 'stock':
             if fuquan == 'bfq':
                 return df
@@ -302,7 +302,7 @@ def get_kdata(security_item, the_date=None, start_date=None, end_date=None, fuqu
                 df.high *= df.factor
                 df.low *= df.factor
                 if fuquan == 'qfq':
-                    # 前复权需要根据最新的factor往回算
+                    # 前复权需要根据最新的factor往回算,当前价格不变
                     df.close /= current_factor
                     df.open /= current_factor
                     df.high /= current_factor

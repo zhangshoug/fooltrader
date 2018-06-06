@@ -58,9 +58,8 @@ def stock_meta_to_es(force=False):
         logger.info(resp)
 
 
-def stock_kdata_to_es(start='000001', end='666666', codes=US_STOCK_CODES, force=False):
-    for _, security_item in get_security_list(start=start, end=end, exchanges=['sh', 'sz', 'nasdaq'],
-                                              codes=codes).iterrows():
+def stock_kdata_to_es(start='000001', end='666666', force=False):
+    for _, security_item in get_security_list(start=start, end=end, exchanges=['sh', 'sz']).iterrows():
         # 创建索引
         index_name = get_es_kdata_index(security_item['type'], security_item['exchange'])
         es_index_mapping(index_name, StockKData)
@@ -94,6 +93,7 @@ def stock_kdata_to_es(start='000001', end='666666', codes=US_STOCK_CODES, force=
             logger.info(resp)
 
 
+# 这里的index是指数的意思,不要以为是索引
 def index_kdata_to_es(force=False):
     for _, security_item in get_security_list(security_type='index', exchanges=EXCHANGE_LIST_COL).iterrows():
         # 创建索引
